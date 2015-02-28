@@ -27,7 +27,7 @@ import java.util.TreeMap;
 public class WritingFragment extends Fragment
 {
     EditText msgText;
-    Button backButton, sendButton;
+    ImageButton backButton, sendButton;
     boolean firstChanged;
 
     private View view;
@@ -41,8 +41,8 @@ public class WritingFragment extends Fragment
         firstChanged = true;
 
         msgText = (EditText) view.findViewById(R.id.msgTextWriting);
-        backButton = (Button) view.findViewById(R.id.backButton);
-        sendButton = (Button) view.findViewById(R.id.sendButton);
+        backButton = (ImageButton) view.findViewById(R.id.backButton);
+        sendButton = (ImageButton) view.findViewById(R.id.sendButton);
 
         msgText.setOnKeyListener(new View.OnKeyListener()
         {
@@ -94,14 +94,13 @@ public class WritingFragment extends Fragment
 
     public void SendMessage()
     {
-        MainActivity.Log("SEND MESSAGE BEFORE");
         if(msgText.getText().toString().equals(MainActivity.DefaultMessage) ||
            msgText.getText().toString().equals("")) return;
-        MainActivity.Log("SEND MESSAGE AFTER");
 
         Message msg = new Message();
         msg.SetText(msgText.getText().toString());
         ConManager.SendMessage(msg);
+        MainActivity.activity.SetCurrentFragment(MainActivity.FragmentFeed);
 
         msgText.setText("");
         msgText.clearFocus();

@@ -199,8 +199,8 @@ public class ConManager
     public static synchronized void SendMessage(final Message msg)
     {
         Init();
-        if(!SettingsManager.LoggedIn() ||
-           WifiDirectBroadcastReceiver.GetMACList().isEmpty()) return;
+        if(!SettingsManager.LoggedIn() /*||
+           WifiDirectBroadcastReceiver.GetMACList().isEmpty()*/) return;
 
         msg.SetUsername(SettingsManager.username);
 

@@ -34,7 +34,11 @@ public class Message
                 if (name.equals(SettingsManager.IdTag)) SetId(reader.nextInt());
                 else if (name.equals(SettingsManager.UsernameTag)) SetUsername(reader.nextString());
                 else if (name.equals(SettingsManager.TextTag)) SetText(reader.nextString());
-                else if (name.equals(SettingsManager.TimestampTag)) { SetTimestamp(reader.nextString()); }
+                else if (name.equals(SettingsManager.TimestampTag))
+                {
+                    String timestamp = reader.nextString();
+                    SetTimestamp(timestamp.substring(timestamp.indexOf(" ")));
+                }
                 else reader.skipValue();
             }
             reader.endObject();

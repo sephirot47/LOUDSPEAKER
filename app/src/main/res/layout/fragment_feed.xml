@@ -16,6 +16,8 @@
         android:layout_below="@+id/toolbar"
         android:layout_alignParentBottom="true" >
 
+
+
         <view
             android:layout_width="wrap_content"
             android:layout_height="55dp"
@@ -60,7 +62,7 @@
 
         <EditText
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Write something..."
             android:id="@+id/msgText"
@@ -75,7 +77,19 @@
             android:enabled="true"
             android:focusable="false"
             android:textColor="#FF888888"
-            android:textColorHint="#FF888888" />
+            android:textColorHint="#FF888888"
+            android:layout_marginLeft="10dp"
+            android:gravity="bottom" />
+
+        <View
+            android:layout_width="match_parent"
+            android:id="@+id/toolbarShadow"
+            android:layout_height="5dp"
+            android:background="@drawable/toolbar_shadow"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentStart="false"
+            android:layout_below="@+id/toolbar" />
 
         <ImageView
             android:layout_width="30dp"
@@ -87,6 +101,29 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_marginRight="15dp" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:id="@+id/sendbarShadow"
+            android:layout_height="5dp"
+            android:background="@drawable/sendbar_shadow"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/feedListView"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:descendantFocusability="blocksDescendants"
+            android:background="@color/colorOscurillo"
+            android:id="@+id/relativeLayout4"
+            android:layout_above="@+id/feedListView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
     </RelativeLayout>
 
 </RelativeLayout>

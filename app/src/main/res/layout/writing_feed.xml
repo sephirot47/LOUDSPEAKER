@@ -8,6 +8,15 @@
     android:focusable="false"
     android:clickable="false" >
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:descendantFocusability="blocksDescendants"
+        android:background="@color/colorOscurillo"
+        android:id="@+id/relativeLayout4"
+        android:layout_alignBottom="@+id/toolbar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
     <view
         android:layout_width="wrap_content"
         android:layout_height="55dp"
@@ -30,11 +39,12 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="0dp"
         android:layout_below="@+id/toolbar"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:id="@+id/relativeLayout2">
 
         <EditText
             android:layout_width="wrap_content"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/msgTextWriting"
             android:layout_alignParentRight="true"
@@ -43,35 +53,67 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:maxLines="10"
-            android:layout_margin="5dp"
             android:gravity="top"
             android:hint="Write something here..."
             android:textColorHint="#FF888888"
             android:maxLength="140"
             android:inputType="textCapSentences"
             android:background="#00000000"
-            android:autoText="false" />
+            android:autoText="false"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentBottom="true"
+            android:padding="5dp" />
 
     </RelativeLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Send"
-        android:id="@+id/sendButton"
-        android:layout_alignParentTop="true"
+    <RelativeLayout
+        android:layout_width="80dp"
+        android:layout_height="fill_parent"
+        android:layout_alignBottom="@+id/toolbar"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="5dp" />
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical">
 
-    <Button
-        android:layout_width="wrap_content"
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:text="Send"
+            android:id="@+id/sendButton"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/icon"
+            android:background="#00000000"
+            android:layout_above="@+id/relativeLayout2"
+            android:scaleType="fitCenter" />
+    </RelativeLayout>
+
+    <ImageButton
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:text="Back"
         android:id="@+id/backButton"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="5dp" />
+        android:layout_marginLeft="5dp"
+        android:src="@drawable/arrow2"
+        android:background="#00000000"
+        android:layout_above="@+id/relativeLayout2"
+        android:scaleType="fitCenter" />
+
+    <View
+    android:layout_width="match_parent"
+    android:id="@+id/toolbarShadow"
+    android:layout_height="5dp"
+    android:background="@drawable/toolbar_shadow"
+    android:layout_alignParentTop="false"
+    android:layout_alignParentLeft="false"
+    android:layout_alignParentStart="false"
+    android:layout_below="@+id/toolbar" />
 
 </RelativeLayout>
