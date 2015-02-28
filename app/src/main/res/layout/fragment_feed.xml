@@ -8,36 +8,62 @@
     android:focusable="false"
     android:clickable="false" >
 
-    <view
-        android:layout_width="wrap_content"
-        android:layout_height="55dp"
-        class="android.support.v7.widget.Toolbar"
-        android:id="@+id/toolbar"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:background="#ffb81e1e"
-        android:clickable="false"
-        android:focusable="false"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="0dp" />
-
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="0dp"
         android:layout_below="@+id/toolbar"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true" >
+
+        <view
+            android:layout_width="wrap_content"
+            android:layout_height="55dp"
+            class="android.support.v7.widget.Toolbar"
+            android:id="@+id/toolbar"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="#ffb81e1e"
+            android:clickable="false"
+            android:focusable="false"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="0"
+            android:id="@+id/peersAroundText"
+            android:layout_alignBottom="@+id/toolbar"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:gravity="center_vertical|center_horizontal"
+            android:textColor="#FFFFFFFF"
+            android:layout_marginRight="20dp"
+            android:textSize="20sp" />
+
+        <view
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            class="com.example.sephirot47.loudspeaker.FeedListView"
+            android:id="@+id/feedListView"
+            android:choiceMode="none"
+            style="@style/Widget.AppCompat.Light.ListView.DropDown"
+            android:longClickable="true"
+            android:layout_below="@+id/toolbar"
+            android:layout_above="@+id/msgText" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Write something..."
-            android:id="@+id/textView2"
+            android:id="@+id/msgText"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -45,8 +71,12 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_marginRight="10dp"
-            android:textSize="20sp" />
-
+            android:textSize="20sp"
+            android:hint="Write something here..."
+            android:enabled="true"
+            android:focusable="false"
+            android:textColor="#FF888888"
+            android:textColorHint="#FF888888" />
     </RelativeLayout>
 
 </RelativeLayout>
