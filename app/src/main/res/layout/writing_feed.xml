@@ -36,7 +36,6 @@
             android:layout_width="wrap_content"
             android:layout_height="200dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Write something here..."
             android:id="@+id/msgTextWriting"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
@@ -46,6 +45,7 @@
             android:maxLines="10"
             android:layout_margin="5dp"
             android:gravity="top"
+            android:hint="Write something here..."
             android:textColorHint="#FF888888" />
 
     </RelativeLayout>
