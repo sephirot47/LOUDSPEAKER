@@ -1,5 +1,6 @@
 package com.example.sephirot47.loudspeaker;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.pm.ActivityInfo;
@@ -7,6 +8,7 @@ import android.content.Intent;
 import android.content.Context;
 import android.media.audiofx.BassBoost;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,12 +17,13 @@ import android.widget.Toast;
 
 import java.lang.reflect.Method;
 
-public class MainActivity extends ActionBarActivity
+public class MainActivity extends FragmentActivity
 {
     public static MainActivity activity;
     public static Context context;
     public static boolean inBackground = false;
 
+    public static final String DefaultMessage = "Write something here...";
     public static final String LogTag = "com.example.sephirot47.loudspeaker";
 
     public static final int FragmentRegister = 1,
@@ -54,9 +57,13 @@ public class MainActivity extends ActionBarActivity
         FragmentTransaction trans = fragmentManager.beginTransaction();
         trans.add(R.id.fragmentContainer, feedFragment);
         trans.add(R.id.fragmentContainer, registerFragment);
-        trans.add(R.id.fragmentContainer, registerFragment);
+        trans.add(R.id.fragmentContainer, writingFragment);
         trans.commit();
+
         SetCurrentFragment(FragmentRegister);
+
+        startService(new Intent(this, MainService.class)); //Por si no se habia iniciado :p
+        NotificationMgr.Clear(this);
     }
 
     public void SetCurrentFragment(final int fragmentId)
@@ -92,7 +99,15 @@ public class MainActivity extends ActionBarActivity
     {
         super.onResume();
         inBackground = false;
-        SetCurrentFragment(FragmentFeed);
+        if(!SettingsManager.username.equals(""))
+            SetCurrentFragment(FragmentFeed);
+        else
+            SetCurrentFragment(FragmentRegister);
+    }
+
+    public int GetCurrentFragment()
+    {
+        return currentFragment;
     }
 
     @Override
@@ -117,5 +132,7 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onBackPressed()
     {
+        if(currentFragment == FragmentWriting)
+            SetCurrentFragment(FragmentFeed);
     }
 }
