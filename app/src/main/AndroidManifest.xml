@@ -2,19 +2,42 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.sephirot47.loudspeaker" >
 
+    <uses-permission android:required="true" android:name="android.permission.INTERNET"/>
+    <uses-permission android:required="true" android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:required="true" android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:required="true" android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:required="true" android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:required="true" android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:required="true" android:name="android.permission.INTERNET" />
+    <uses-permission android:required="true" android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
+
+        <receiver android:name="com.example.sephirot47.loudspeaker.WifiDirectBroadcastReceiver" >
+            <intent-filter android:priority="100">
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED"
+                    android:enabled="true" /> />
+            </intent-filter>
+        </receiver>
+
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:name="com.example.sephirot47.loudspeaker.MainActivity"
+            android:label="Loudspeaker"
+            android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+
+        <service android:enabled="true" android:name="com.example.sephirot47.loudspeaker.MainService" android:exported="false"/>
+
     </application>
 
 </manifest>

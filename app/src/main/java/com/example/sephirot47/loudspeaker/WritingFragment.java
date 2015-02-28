@@ -29,6 +29,7 @@ public class WritingFragment extends Fragment
     EditText msgText;
     Button backButton, sendButton;
     boolean firstChanged;
+
     private View view;
 
     public WritingFragment() {}
@@ -40,7 +41,6 @@ public class WritingFragment extends Fragment
         firstChanged = true;
 
         msgText = (EditText) view.findViewById(R.id.msgTextWriting);
-        msgText.requestFocus();
         backButton = (Button) view.findViewById(R.id.backButton);
         sendButton = (Button) view.findViewById(R.id.sendButton);
 
@@ -81,11 +81,33 @@ public class WritingFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                //SEND
+                SendMessage();
                 InputMethodManager imm = (InputMethodManager) MainActivity.activity.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(msgText, InputMethodManager.SHOW_IMPLICIT);
             }
         });
+
+        InputMethodManager imm = (InputMethodManager) MainActivity.activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(msgText, InputMethodManager.SHOW_IMPLICIT);
+        msgText.requestFocus();
+    }
+
+    public void SendMessage()
+    {
+        MainActivity.Log("SEND MESSAGE BEFORE");
+        if(msgText.getText().toString().equals(MainActivity.DefaultMessage) ||
+           msgText.getText().toString().equals("")) return;
+        MainActivity.Log("SEND MESSAGE AFTER");
+
+        Message msg = new Message();
+        msg.SetText(msgText.getText().toString());
+        ConManager.SendMessage(msg);
+
+        msgText.setText("");
+        msgText.clearFocus();
+
+        InputMethodManager imm = (InputMethodManager) MainActivity.activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(msgText.getWindowToken(), 0);
     }
 
     public void OnEnterFragment()

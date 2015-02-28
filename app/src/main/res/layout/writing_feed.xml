@@ -18,7 +18,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="#ffb81e1e"
+        android:background="@color/colorPrimary"
         android:clickable="false"
         android:focusable="false"
         android:layout_marginLeft="0dp"
@@ -46,7 +46,11 @@
             android:layout_margin="5dp"
             android:gravity="top"
             android:hint="Write something here..."
-            android:textColorHint="#FF888888" />
+            android:textColorHint="#FF888888"
+            android:maxLength="140"
+            android:inputType="textCapSentences"
+            android:background="#00000000"
+            android:autoText="false" />
 
     </RelativeLayout>
 

@@ -26,7 +26,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:background="#ffb81e1e"
+            android:background="@color/colorPrimary"
             android:clickable="false"
             android:focusable="false"
             android:layout_marginLeft="0dp"
@@ -39,13 +39,13 @@
             android:text="0"
             android:id="@+id/peersAroundText"
             android:layout_alignBottom="@+id/toolbar"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:gravity="center_vertical|center_horizontal"
             android:textColor="#FFFFFFFF"
-            android:layout_marginRight="20dp"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_toStartOf="@+id/imageView"
+            android:layout_toLeftOf="@+id/imageView"
+            android:layout_marginRight="10dp" />
 
         <view
             android:layout_width="match_parent"
@@ -67,7 +67,6 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="10dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_marginRight="10dp"
@@ -77,6 +76,17 @@
             android:focusable="false"
             android:textColor="#FF888888"
             android:textColorHint="#FF888888" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:src="@drawable/personicon"
+            android:scaleType="fitCenter"
+            android:layout_above="@+id/feedListView"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="15dp" />
     </RelativeLayout>
 
 </RelativeLayout>

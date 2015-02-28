@@ -61,6 +61,9 @@ public class MainActivity extends FragmentActivity
         trans.commit();
 
         SetCurrentFragment(FragmentRegister);
+
+        startService(new Intent(this, MainService.class)); //Por si no se habia iniciado :p
+        NotificationMgr.Clear(this);
     }
 
     public void SetCurrentFragment(final int fragmentId)

@@ -64,6 +64,7 @@ public class Message
         {
             jo.put(SettingsManager.IdTag, -1);
             jo.put(SettingsManager.UsernameTag, GetUsername());
+            jo.put("nick", GetUsername());
             jo.put(SettingsManager.TextTag, GetText());
             jo.put(SettingsManager.TimestampTag, GetTimestamp());
         }
