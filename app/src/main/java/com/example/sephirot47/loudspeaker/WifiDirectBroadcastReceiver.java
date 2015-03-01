@@ -24,7 +24,7 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver {
     private static Channel mChannel = null;
     private static PeerListListener peerListListener;
 
-    private static final int REFRESH_RATE = 10 * 1000;
+    private static final int REFRESH_RATE = 5 * 1000;
 
     public static void Init()
     {
