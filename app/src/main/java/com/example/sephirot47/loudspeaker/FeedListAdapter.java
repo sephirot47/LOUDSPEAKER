@@ -71,9 +71,11 @@ class FeedListAdapter extends BaseAdapter
             public void onAnimationRepeat(Animation animation) {
             }
             @Override
-            public void onAnimationEnd(Animation animation) {
+            public void onAnimationEnd(Animation animation)
+            {
                 row.getLayoutParams().height = initialHeight;
                 row.requestLayout();
+                HistoryManager.DeleteMessage(feeds.get(indexOfDeleted).msg);
                 feeds.remove(indexOfDeleted);
                 notifyDataSetChanged();
             }

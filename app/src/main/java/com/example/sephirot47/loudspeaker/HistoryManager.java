@@ -115,6 +115,17 @@ public class HistoryManager extends SQLiteOpenHelper
         db.execSQL(sql);
     }
 
+    public static void DeleteMessage(Message msg)
+    {
+        Init();
+        if(!HistoryManager.Exist(msg)) return;
+
+        SQLiteDatabase db = historyManager.getWritableDatabase();
+        String sql = "DELETE FROM " + GetTableName() + " WHERE " + IdTag + " = " + msg.GetId() + ";";
+        MainActivity.Log(sql);
+        db.execSQL(sql);
+    }
+
     public static boolean Exist(Message msg)
     {
         Init();

@@ -58,7 +58,9 @@
             style="@style/Widget.AppCompat.Light.ListView.DropDown"
             android:longClickable="true"
             android:layout_below="@+id/toolbar"
-            android:layout_above="@+id/msgText" />
+            android:layout_above="@+id/msgText"
+            android:descendantFocusability="afterDescendants"
+            />
 
 
         <EditText

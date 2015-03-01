@@ -79,12 +79,13 @@ public class Feed
                     padding = 0;
                     initialx = (int) event.getX();
                     currentx = (int) event.getX();
-                    v.getParent().requestDisallowInterceptTouchEvent(true);
                 }
                 if ( action == MotionEvent.ACTION_MOVE )
                 {
                     currentx = (int) event.getX();
                     padding = currentx - initialx;
+                    if(v.getParent() != null && padding > 5)
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
                 }
 
                 if ( action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL)

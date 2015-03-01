@@ -60,7 +60,8 @@ public class FeedListView extends ListView
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-        return super.onTouchEvent(event);
+        super.onTouchEvent(event);
+        return false;
     }
 
     @Override
