@@ -60,9 +60,10 @@
             android:layout_below="@+id/toolbar"
             android:layout_above="@+id/msgText" />
 
+
         <EditText
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Write something..."
             android:id="@+id/msgText"
@@ -123,6 +124,16 @@
             android:layout_above="@+id/feedListView"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="55dp"
+            android:id="@+id/imageView2"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/logo"
+            android:layout_marginLeft="-15dp" />
 
     </RelativeLayout>
 

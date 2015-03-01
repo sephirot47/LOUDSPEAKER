@@ -76,20 +76,14 @@ public class WritingFragment extends Fragment
             }
         });
 
-        sendButton.setOnClickListener(new View.OnClickListener()
-        {
+        sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 SendMessage();
                 InputMethodManager imm = (InputMethodManager) MainActivity.activity.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(msgText, InputMethodManager.SHOW_IMPLICIT);
             }
         });
-
-        InputMethodManager imm = (InputMethodManager) MainActivity.activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(msgText, InputMethodManager.SHOW_IMPLICIT);
-        msgText.requestFocus();
     }
 
     public void SendMessage()
@@ -100,20 +94,32 @@ public class WritingFragment extends Fragment
         Message msg = new Message();
         msg.SetText(msgText.getText().toString());
         ConManager.SendMessage(msg);
-        MainActivity.activity.SetCurrentFragment(MainActivity.FragmentFeed);
 
         msgText.setText("");
         msgText.clearFocus();
 
         InputMethodManager imm = (InputMethodManager) MainActivity.activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(msgText.getWindowToken(), 0);
+
+        MainActivity.activity.SetCurrentFragment(MainActivity.FragmentFeed);
     }
 
     public void OnEnterFragment()
     {
         FeedFragment.comingFromWriting = true;
-        InputMethodManager imm = (InputMethodManager) MainActivity.activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(msgText, InputMethodManager.SHOW_IMPLICIT);
+
+        new Thread(new Runnable(){public void run(){
+
+            try { Thread.sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
+
+            MainActivity.activity.runOnUiThread(new Runnable(){public void run(){
+                msgText.requestFocus();
+            }});
+
+            InputMethodManager imm = (InputMethodManager) MainActivity.activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(msgText.getWindowToken(), 0);
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        }}).start();
     }
 
     @Override

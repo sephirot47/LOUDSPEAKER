@@ -60,7 +60,8 @@ public class MainActivity extends FragmentActivity
         trans.add(R.id.fragmentContainer, writingFragment);
         trans.commit();
 
-        SetCurrentFragment(FragmentRegister);
+        if(SettingsManager.LoggedIn()) SetCurrentFragment(FragmentFeed);
+        else SetCurrentFragment(FragmentRegister);
 
         startService(new Intent(this, MainService.class)); //Por si no se habia iniciado :p
         NotificationMgr.Clear(this);
@@ -99,10 +100,12 @@ public class MainActivity extends FragmentActivity
     {
         super.onResume();
         inBackground = false;
-        if(!SettingsManager.username.equals(""))
+        if(!SettingsManager.GetUsername().equals(""))
             SetCurrentFragment(FragmentFeed);
         else
-            SetCurrentFragment(FragmentRegister);
+
+        WifiDirectBroadcastReceiver.Register();
+        NotificationMgr.Clear(this.getApplicationContext());
     }
 
     public int GetCurrentFragment()
@@ -115,6 +118,7 @@ public class MainActivity extends FragmentActivity
     {
         super.onPause();
         inBackground = true;
+        WifiDirectBroadcastReceiver.Unregister();
     }
 
     @Override
@@ -124,7 +128,6 @@ public class MainActivity extends FragmentActivity
         activity = null;
         inBackground = true;
     }
-
 
     @Override
     protected void onSaveInstanceState(Bundle outState) { }

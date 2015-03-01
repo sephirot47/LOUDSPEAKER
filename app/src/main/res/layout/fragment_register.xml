@@ -67,7 +67,8 @@
 				style="?android:attr/buttonStyleSmall"
 				android:text="Login"
 				android:layout_width="100dp"
-				android:layout_alignParentLeft="true"/>
+				android:layout_alignParentLeft="false"
+                android:layout_alignParentRight="true" />
 
 			<Button
 			  android:id="@+id/registerButton"
@@ -75,7 +76,8 @@
 				style="?android:attr/buttonStyleSmall"
 				android:text="Register"
 				android:layout_width="100dp"
-				android:layout_alignParentRight="true" />
+				android:layout_alignParentRight="false"
+                android:layout_alignParentLeft="true" />
 
 		</RelativeLayout>
 

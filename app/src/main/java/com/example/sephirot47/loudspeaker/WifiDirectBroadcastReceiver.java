@@ -30,42 +30,27 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver {
     {
         if(mReceiver == null && MainActivity.activity != null)
         {
-            mManager = (WifiP2pManager) MainActivity.activity.getSystemService(Context.WIFI_P2P_SERVICE);
-            mChannel = mManager.initialize(MainActivity.activity.getApplicationContext(),
-                                           MainActivity.activity.getMainLooper(), null);
-
             macs = new ArrayList<String>();
             peerListListener = new PeerListListener()
             {
                 @Override
                 public void onPeersAvailable(WifiP2pDeviceList peers)
                 {
-                    macs.clear();
-                    Iterator i = peers.getDeviceList().iterator();
-                    Context ctx = MainActivity.activity == null ? MainService.context : MainActivity.context;
-                    while(i.hasNext())
-                    {
-                        WifiP2pDevice dev = ((WifiP2pDevice)i.next());
-                        MainActivity.Log(dev.deviceAddress.substring(3));
-                        macs.add(dev.deviceAddress.substring(3));
-                    }
-
-                    if(MainActivity.feedFragment != null)
-                    {
-                        MainActivity.feedFragment.SetPeersText(String.valueOf(macs.size()));
-                    }
+                    WifiDirectBroadcastReceiver.onPeersAvailable(peers);
                 }
             };
 
             mReceiver = new WifiDirectBroadcastReceiver();
 
             mIntentFilter = new IntentFilter();
-            mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION);
             mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION);
-            mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION);
-            mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION);
 
-            new Thread(new Runnable(){public void run(){
+            mManager = (WifiP2pManager) MainActivity.activity.getSystemService(Context.WIFI_P2P_SERVICE);
+            mChannel = mManager.initialize(MainActivity.activity.getApplicationContext(),
+                    MainActivity.activity.getMainLooper(), null);
+            mManager.requestPeers(mChannel, peerListListener);
+
+            new Thread(new Runnable(){public void run() {
                 while(true)
                 {
                     UpdateMACsList();
@@ -75,10 +60,34 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver {
         }
     }
 
+    public static void onPeersAvailable(WifiP2pDeviceList peers)
+    {
+        MainActivity.Log("ON PEERS AVAILABLE");
+        macs.clear();
+        Iterator i = peers.getDeviceList().iterator();
+        while(i.hasNext())
+        {
+            WifiP2pDevice dev = ((WifiP2pDevice)i.next());
+            MainActivity.Log(dev.deviceAddress.substring(3));
+            macs.add(dev.deviceAddress.substring(3));
+        }
+
+        if(MainActivity.feedFragment != null)
+        {
+            MainActivity.feedFragment.SetPeersText(String.valueOf(macs.size()));
+        }
+
+        MainActivity.Log(String.valueOf(macs.size()));
+    }
+
     public static void Register()
     {
-        if(MainActivity.activity != null)
-            MainActivity.activity.registerReceiver(mReceiver, mIntentFilter);
+        if(MainActivity.activity != null && Created())
+            try
+            {
+                MainActivity.activity.registerReceiver(mReceiver, mIntentFilter);
+            }
+            catch(IllegalArgumentException e){}
     }
 
     public static boolean Created()
@@ -88,8 +97,12 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver {
 
     public static void Unregister()
     {
-        if(MainActivity.activity != null)
-            MainActivity.activity.registerReceiver(mReceiver, mIntentFilter);
+        if(MainActivity.activity != null && Created())
+            try
+            {
+                MainActivity.activity.unregisterReceiver(mReceiver);
+            }
+            catch(IllegalArgumentException e){}
     }
 
     public static synchronized ArrayList<String> GetMACList()
@@ -99,17 +112,12 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver {
 
     public static synchronized void UpdateMACsList()
     {
+        MainActivity.Log("DISCOVER PEERS (UpdateMACsList)");
         mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
             @Override
             public void onSuccess()
             {
-                if (WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION.equals(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION))
-                {
-                    if (mManager != null)
-                    {
-                        mManager.requestPeers(mChannel, peerListListener);
-                    }
-                }
+                MainActivity.Log("ON SUCCESS!!!");
             }
 
             @Override
@@ -124,17 +132,9 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver {
     public WifiDirectBroadcastReceiver() {}
 
     @Override
-    public void onReceive(Context context, Intent intent) {
-        String action = intent.getAction();
-
-        if (WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION.equals(action)) {
-            // Check to see if Wi-Fi is enabled and notify appropriate activity
-        } else if (WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION.equals(action)) {
-            // Call WifiP2pManager.requestPeers() to get a list of current peers
-        } else if (WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION.equals(action)) {
-            // Respond to new connection or disconnections
-        } else if (WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION.equals(action)) {
-            // Respond to this device's wifi state changing
-        }
+    public void onReceive(Context context, Intent intent)
+    {
+        mManager.requestPeers(mChannel, peerListListener);
+        MainActivity.Log("WIFI_P2P_PEERS_CHANGED_ACTION !!!!");
     }
 }

@@ -57,7 +57,7 @@
             android:hint="Write something here..."
             android:textColorHint="#FF888888"
             android:maxLength="140"
-            android:inputType="textCapSentences"
+            android:inputType="textShortMessage|textMultiLine|textCapSentences"
             android:background="#00000000"
             android:autoText="false"
             android:layout_marginLeft="5dp"
@@ -78,18 +78,18 @@
         android:gravity="center_vertical">
 
         <ImageButton
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="60dp"
+            android:layout_height="fill_parent"
             android:text="Send"
             android:id="@+id/sendButton"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="15dp"
             android:src="@drawable/icon"
             android:background="#00000000"
             android:layout_above="@+id/relativeLayout2"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitCenter"
+            android:padding="12dp" />
     </RelativeLayout>
 
     <ImageButton

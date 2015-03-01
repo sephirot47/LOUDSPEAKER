@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
+import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.view.View;
 import android.view.LayoutInflater;
@@ -26,10 +27,11 @@ import java.util.ArrayList;
 
 public class Feed
 {
-    private View view;
+    public View view;
     private TextView usernameTextView, textView, timestampText;
     private ImageButton reloudButton;
-    private Message msg;
+    public static final String ReloudURL = ConManager.BaseURL + "/reloud";
+    public Message msg;
     private ImageView userImage;
     private static LayoutInflater inflater=null;
 
@@ -48,7 +50,7 @@ public class Feed
 
         this.msg = msg;
 
-        if(msg.GetUsername().equals(SettingsManager.username))
+        if(msg.GetUsername().equals(SettingsManager.GetUsername()))
         {
             reloudButton.setVisibility(View.GONE);
         }
@@ -58,6 +60,53 @@ public class Feed
             public void onClick(View v)
             {
                 Reloud();
+            }
+        });
+
+        final Feed fthis = this;
+
+        view.setOnTouchListener(
+            new View.OnTouchListener() {
+            private int padding = 0;
+            private int initialx = 0;
+            private int currentx = 0;
+
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                int action = event.getAction() & MotionEvent.ACTION_MASK;
+                if ( action == MotionEvent.ACTION_DOWN)
+                {
+                    padding = 0;
+                    initialx = (int) event.getX();
+                    currentx = (int) event.getX();
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                }
+                if ( action == MotionEvent.ACTION_MOVE )
+                {
+                    currentx = (int) event.getX();
+                    padding = currentx - initialx;
+                }
+
+                if ( action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL)
+                {
+                    padding = 0;
+                    initialx = 0;
+                    currentx = 0;
+                    view.setAlpha( 1.0f );
+                    if(v.getParent() != null)
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                }
+                    if(padding > view.getWidth() * 0.7f)
+                    {
+                        ((FeedListAdapter) FeedFragment.feedListView.getAdapter()).DeleteFeed(fthis);
+                    }
+                    else if (padding >= 0)
+                    {
+                        v.setPadding(padding, v.getPaddingTop(), -padding, v.getPaddingBottom());
+                        view.setAlpha( 1.0f - (float)(view.getPaddingLeft())/(float)(view.getWidth()) );
+                    }
+
+                return true;
             }
         });
     }
@@ -92,5 +141,29 @@ public class Feed
 
     public void Reloud()
     {
+        try {
+            JSONArray jsonArray = new JSONArray();
+            ArrayList<String> macList = WifiDirectBroadcastReceiver.GetMACList();
+            for (int i = 0; i < macList.size(); i++)
+                jsonArray.put(macList.get(i));
+
+            //jsonArray.put(SettingsManager.GetMAC()); //aqui no añadimos la localMAC
+
+            JSONObject obj = new JSONObject();
+            obj.put(HistoryManager.IdTag, msg.GetId());
+            obj.put("macs", jsonArray);
+            MainActivity.Log("RELOUD SEND: " + obj.toString());
+
+            ConManager.SendPost(ReloudURL, obj,
+                    Class.forName("com.example.sephirot47.loudspeaker.Feed").getDeclaredMethod("OnReloudSuccess", String.class, JSONObject.class),
+                    Class.forName("com.example.sephirot47.loudspeaker.Feed").getDeclaredMethod("OnReloudFailed", String.class, JSONObject.class));
+        }
+        catch (JSONException e) { e.printStackTrace(); }
+        catch (ClassNotFoundException e) { e.printStackTrace(); }
+        catch (NoSuchMethodException e) { e.printStackTrace(); }
+        MainActivity.Log("ASDASSAD");
     }
+
+    public static void OnReloudSuccess(String response, JSONObject jsonObj){ MainActivity.Log("RELOUD RESP: " + response);}
+    public static void OnReloudFailed(String response, JSONObject jsonObj){}
 }

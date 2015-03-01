@@ -202,13 +202,15 @@ public class ConManager
         if(!SettingsManager.LoggedIn() /*||
            WifiDirectBroadcastReceiver.GetMACList().isEmpty()*/) return;
 
-        msg.SetUsername(SettingsManager.username);
+        msg.SetUsername(SettingsManager.GetUsername());
 
         if(msg.ReadyToBeSent())
         {
             JSONObject jsonObj = msg.GetJSONObject();
             JSONArray jsonArray = new JSONArray();
             ArrayList<String> macList = WifiDirectBroadcastReceiver.GetMACList();
+            if(macList == null) return;
+
             for (int i = 0; i < macList.size(); i++)
                 jsonArray.put(macList.get(i));
             jsonArray.put(SettingsManager.GetMAC());
@@ -233,7 +235,7 @@ public class ConManager
         Init();
 
         ArrayList<Message> messages = new ArrayList<Message>();
-        if(SettingsManager.username.equals("")) return messages;
+        if(SettingsManager.GetUsername().equals("")) return messages;
 
         JsonReader jsonReader = null;
         InputStream in = null;

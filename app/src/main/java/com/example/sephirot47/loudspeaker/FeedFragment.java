@@ -26,7 +26,7 @@ public class FeedFragment extends Fragment
 {
     EditText msgText;
     private static TextView peersAroundText;
-    private static FeedListView feedListView;
+    public static FeedListView feedListView;
     private View view;
 
     private static HashSet<Integer> idMessagesInFeed;
@@ -84,17 +84,33 @@ public class FeedFragment extends Fragment
 
     public void OnEnterFragment()
     {
+        if(msgText == null) return;
+
         new Thread( new Runnable(){ public void run(){
 
-            try { Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); }
+            try { Thread.sleep(100); } catch (InterruptedException e) { e.printStackTrace(); }
             if(MainActivity.activity.GetCurrentFragment() != MainActivity.FragmentWriting)
                 comingFromWriting = false;
+
+            InputMethodManager imm = (InputMethodManager) MainActivity.activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(msgText.getWindowToken(), 0);
 
         } } ).start();
 
         msgText.clearFocus();
         InputMethodManager imm = (InputMethodManager) MainActivity.activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(msgText.getWindowToken(), 0);
+
+        Update();
+    }
+
+    public void AppendLocalHistoryMessages()
+    {
+        if(!Created()) return;
+        HistoryManager.OnLogin();
+        AppendNewMessages();
+        newMessages = HistoryManager.GetMessages();
+        AppendNewMessages();
     }
 
     @Override
@@ -149,6 +165,7 @@ public class FeedFragment extends Fragment
             {
                 MainActivity.Log("Adding received message...");
                 newMessages.add(msg);
+                HistoryManager.InsertMessage(msg);
             }
         }
 
@@ -180,6 +197,7 @@ public class FeedFragment extends Fragment
 
     public void Update()
     {
+        AppendLocalHistoryMessages();
         ScrollDownFeedList();
     }
 }

@@ -35,10 +35,7 @@ public class RegisterFragment extends Fragment
 
     private View view;
 
-    public RegisterFragment()
-    {
-
-    }
+    public RegisterFragment() {}
 
     private void Init(View v)
     {
@@ -93,7 +90,7 @@ public class RegisterFragment extends Fragment
 
     public void LoginUser()
     {
-        if(!SettingsManager.username.equals("")) return;
+        if(!SettingsManager.GetUsername().equals("")) return;
         try
         {
             MainActivity.Log("ConManager.SendGet");
@@ -108,7 +105,7 @@ public class RegisterFragment extends Fragment
 
     public static void OnLoginSuccess(String response)
     {
-        if(!SettingsManager.username.equals("")) return;
+        if(!SettingsManager.GetUsername().equals("")) return;
 
         MainActivity.Log(response);
         if(!response.equals("\"KO\""))
@@ -123,8 +120,8 @@ public class RegisterFragment extends Fragment
                 while (jsonReader.hasNext())
                 {
                     String name = jsonReader.nextName();
-                    if (name.equals(SettingsManager.UsernameTag)) SettingsManager.username = jsonReader.nextString();
-                    else if (name.equals(SettingsManager.PasswordTag)) SettingsManager.pass = jsonReader.nextString();
+                    if (name.equals(SettingsManager.UsernameTag)) SettingsManager.SetUsername(jsonReader.nextString());
+                    else if (name.equals(SettingsManager.PasswordTag)) SettingsManager.SetPassword(jsonReader.nextString());
                     else jsonReader.skipValue();
                 }
 
@@ -143,7 +140,7 @@ public class RegisterFragment extends Fragment
 
     public static void OnLoginFailed(String response)
     {
-        if(!SettingsManager.username.equals("")) return;
+        if(!SettingsManager.GetUsername().equals("")) return;
         MainActivity.Toast("Something went wrong when trying to log in");
     }
 

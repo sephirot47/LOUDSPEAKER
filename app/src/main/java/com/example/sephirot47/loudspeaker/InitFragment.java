@@ -40,9 +40,11 @@ public class InitFragment extends Fragment
                         {
                             if(!ConManager.Created()) ConManager.Init();
                             if(!SettingsManager.Created()) SettingsManager.Init();
+                            if(!HistoryManager.Created()) HistoryManager.Init();
                             if(!WifiDirectBroadcastReceiver.Created()) WifiDirectBroadcastReceiver.Init();
 
                             boolean everythingInited = ConManager.Created() && SettingsManager.Created() &&
+                                                       HistoryManager.Created() &&
                                                        WifiDirectBroadcastReceiver.Created();
                             if(everythingInited)
                             {
@@ -62,6 +64,7 @@ public class InitFragment extends Fragment
                             {
                                 if(!ConManager.Created()) MainActivity.Log("ConManager");
                                 if(!SettingsManager.Created()) MainActivity.Log("SettingsManager");
+                                if(!HistoryManager.Created()) MainActivity.Log("HistoryManager");
                             }
                             try { Thread.sleep(300); } catch (InterruptedException e) { e.printStackTrace(); }
                         }
