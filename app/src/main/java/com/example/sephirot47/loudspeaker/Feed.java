@@ -103,15 +103,16 @@ public class Feed
                     if(v.getParent() != null)
                         v.getParent().requestDisallowInterceptTouchEvent(false);
                 }
-                    if(padding > view.getWidth() * 0.7f)
-                    {
-                        ((FeedListAdapter) FeedFragment.feedListView.getAdapter()).DeleteFeed(fthis);
-                    }
-                    else if (padding >= 0)
-                    {
-                        v.setPadding(padding, v.getPaddingTop(), -padding, v.getPaddingBottom());
-                        view.setAlpha( 1.0f - (float)(view.getPaddingLeft())/(float)(view.getWidth()) );
-                    }
+
+                if(padding > view.getWidth() * 0.7f)
+                {
+                    ((FeedListAdapter) FeedFragment.feedListView.getAdapter()).DeleteFeed(fthis);
+                }
+                else if (padding >= 0)
+                {
+                    v.setPadding(padding, v.getPaddingTop(), -padding, v.getPaddingBottom());
+                    view.setAlpha( 1.0f - (float)(view.getPaddingLeft())/(float)(view.getWidth()) );
+                }
 
                 return true;
             }
