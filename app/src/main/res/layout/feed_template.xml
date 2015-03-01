@@ -110,28 +110,15 @@
         android:id="@+id/linearLayout2">
 
         <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text LALALALALALALALALAL"
             android:id="@+id/textView"
-            android:textSize="25sp"
-            android:text="Lorem ipsum dolor sit amet"
-            android:autoText="false"
-            android:password="false"
-
-            android:textColor="#ff333333"
-            android:editable="false"
-            android:maxLines="5"
+            android:layout_marginTop="25dp"
             android:layout_marginRight="15dp"
-            android:gravity="center_vertical"
-            android:layout_marginTop="20dp" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/relativeLayout">
-
-        </RelativeLayout>
+            android:singleLine="false"
+            android:inputType="textMultiLine" />
 
     </LinearLayout>
 
@@ -158,7 +145,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:id="@+id/userImage"
-        android:src="@drawable/jfons"
+        android:src="@drawable/face1"
         android:focusableInTouchMode="true"
         android:layout_alignParentBottom="false"
         android:layout_alignParentLeft="true"

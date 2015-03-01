@@ -118,6 +118,7 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver {
             public void onSuccess()
             {
                 MainActivity.Log("ON SUCCESS!!!");
+                mManager.requestPeers(mChannel, peerListListener);
             }
 
             @Override
@@ -126,7 +127,6 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver {
                 MainActivity.Log("FAILED PEERING: " + reasonCode);
             }
         });
-
     }
 
     public WifiDirectBroadcastReceiver() {}

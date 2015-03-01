@@ -7,6 +7,7 @@ import android.media.audiofx.BassBoost;
 import android.os.Bundle;
 import android.util.JsonReader;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -81,13 +82,76 @@ public class RegisterFragment extends Fragment
                 imm.showSoftInput(passText, InputMethodManager.SHOW_IMPLICIT);
             }
         });
+
+        userText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_NEXT)
+                {
+                    passText.requestFocus();
+                }
+                return false;
+            }
+        });
+
+        passText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE)
+                {
+                    LoginUser();
+                }
+                return false;
+            }
+        });
     }
+
+    public static void OnRegisterSuccess(String response, JSONObject obj)
+    {
+        if(SettingsManager.LoggedIn()) return;
+        String username = "", password = "";
+        try
+        {
+            username = obj.getString(HistoryManager.UsernameTag);
+            password = obj.getString(SettingsManager.PasswordTag);
+        }
+        catch (JSONException e) { e.printStackTrace(); }
+
+        if(response.equals("\"OK\""))
+        {
+            SettingsManager.SetUsername(username);
+            SettingsManager.SetPassword(password);
+
+            MainActivity.Toast("You have registered successfully! Welcome " + username);
+
+            HistoryManager.OnLogin();
+            MainActivity.feedFragment.AppendLocalHistoryMessages();
+            MainActivity.activity.SetCurrentFragment(MainActivity.FragmentFeed);
+        }
+        else
+        {
+            MainActivity.Toast("The username '" + username + "' isn't available. Please select another one.");
+        }
+    }
+
+    public static void OnRegisterFailed(String response, JSONObject obj) {}
 
     public void RegisterUser()
     {
-        MainActivity.activity.SetCurrentFragment(MainActivity.FragmentFeed);
-    }
+        if(SettingsManager.LoggedIn()) return;
+        try {
+            JSONObject loginObj = new JSONObject();
+            loginObj.put(HistoryManager.UsernameTag, userText.getText().toString());
+            loginObj.put("nick", userText.getText().toString());
+            loginObj.put(SettingsManager.PasswordTag, passText.getText().toString());
 
+            ConManager.SendPost(RegisterURL, loginObj,
+                    getClass().getDeclaredMethod("OnRegisterSuccess", String.class, JSONObject.class),
+                    getClass().getDeclaredMethod("OnRegisterFailed", String.class, JSONObject.class));
+        }
+        catch (JSONException e) { e.printStackTrace(); }
+        catch (NoSuchMethodException e) { e.printStackTrace(); }
+    }
     public void LoginUser()
     {
         if(!SettingsManager.GetUsername().equals("")) return;

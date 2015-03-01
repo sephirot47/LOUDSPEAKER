@@ -46,6 +46,12 @@ public class Feed
         timestampText = (TextView) view.findViewById(R.id.timestampText);
         reloudButton = (ImageButton) view.findViewById(R.id.reloudButton);
         userImage = (ImageView) view.findViewById(R.id.userImage);
+
+        if(msg.GetUsername().charAt(0) == 'j') userImage.setImageResource(R.drawable.face1);
+        else if(msg.GetUsername().charAt(0) == 'A') userImage.setImageResource(R.drawable.face2);
+        else if(msg.GetUsername().charAt(0) == 'v') userImage.setImageResource(R.drawable.face3);
+        else userImage.setImageResource(R.drawable.face1);
+
         RoundPalanca(userImage);
 
         this.msg = msg;
@@ -114,7 +120,7 @@ public class Feed
 
     public void RoundPalanca(ImageView iv)
     {
-        Bitmap bitmap = ((BitmapDrawable)iv.getDrawable()).getBitmap();
+        Bitmap bitmap = ((BitmapDrawable) iv.getDrawable()).getBitmap();
         Bitmap circleBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
         Paint paint = new Paint();
         paint.setStrokeWidth(5);
@@ -129,7 +135,7 @@ public class Feed
 
     public View GetView()
     {
-        textView.setText( Html.fromHtml(msg.GetText()).toString() );
+        textView.setText( msg.GetText().toString() );
         usernameTextView.setText( Html.fromHtml(msg.GetUsername()).toString() );
 
         String timestamp = msg.GetTimestamp();

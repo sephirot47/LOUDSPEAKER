@@ -44,29 +44,6 @@ public class WritingFragment extends Fragment
         backButton = (ImageButton) view.findViewById(R.id.backButton);
         sendButton = (ImageButton) view.findViewById(R.id.sendButton);
 
-        msgText.setOnKeyListener(new View.OnKeyListener()
-        {
-            public boolean onKey(View v, int keyCode, KeyEvent event)
-            {
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) && keyCode == KeyEvent.KEYCODE_ENTER)
-                {
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        msgText.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                MainActivity.activity.SetCurrentFragment(MainActivity.FragmentWriting);
-                InputMethodManager imm = (InputMethodManager) MainActivity.activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(msgText, InputMethodManager.SHOW_IMPLICIT);
-            }
-        });
-
         backButton.setOnClickListener(new View.OnClickListener()
         {
             @Override

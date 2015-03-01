@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.view.*;
 import android.view.inputmethod.*;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -51,6 +52,14 @@ public class FeedFragment extends Fragment
         peersAroundText = (TextView) view.findViewById(R.id.peersAroundText);
         msgText = (EditText) view.findViewById(R.id.msgText);
         feedListView = (FeedListView) view.findViewById(R.id.feedListView);
+
+        ((ImageView) view.findViewById(R.id.logo)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.activity.SetCurrentFragment(MainActivity.FragmentRegister);
+                SettingsManager.Logout();
+            }
+        });
 
         msgText.setOnClickListener(new View.OnClickListener()
         {
